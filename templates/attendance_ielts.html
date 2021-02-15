@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <meta content="description" name="description">
+    <meta name="google" content="notranslate" />
+    <meta content="Mashup templates have been developped by Orson.io team" name="author">
+
+    <!-- Disable tap highlight on IE -->
+    <meta name="msapplication-tap-highlight" content="no">
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-icon-180x180.png">
+    <link href="./assets/favicon.ico" rel="icon">
+
+    <link href="" rel="stylesheet">
+
+
+    <title>Dashboard Elite Academy</title>
+
+    <link href="./main.550dcf66.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Add your content of header -->
+    <header>
+        <nav class="navbar navbar-default active">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+                    <a class="navbar-brand" href="./" title="">
+                        <img src="./assets/images/mashup-icon.svg" class="navbar-logo-img" alt=""> Elite English Academy
+                    </a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="./" title="">Home</a></li>
+                        {% if user %}
+                        <li><a>Hi {{user}}</a></li>
+                        <li><a href="./dashboard" title="">Dashboard </a></li>
+                        {% endif %}
+                        <li><a href="./login" title="">{{session_toggle}}</a></li>
+                        <li>
+                            <p>
+                                <a href="./components.html" class="btn btn-default navbar-btn" title="">Components</a>
+                            </p>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Add your site or app content here -->
+    <div class="alert alert-danger" align="center" style="margin-left: 35%;margin-right: 35%;">Attendance IELTS</div>
+    <br>
+
+    <div class="container grid">
+        <form action="./submit_attendance_data_ielts" method="POST" class="form-group">
+            <div class="col-sm-3">
+                <label>Date Of Attendance</label>
+                <input type="date" class="form-control" name="attendanceDate" value={{date}} placeholder="Attendance Date" readonly /><br>
+            </div><br><br><br>
+            <br>
+            <br>
+            <div class="table-responsive">
+                <table class="col-lg-10" style="border: 7px thin">
+                    <tr>
+                        <th style="background-color: aquamarine;"> Student ID </th>
+                        <th style="background-color: aquamarine;"> Student Name </th>
+                        <th style="background-color: aquamarine;"> Present..? </th>
+                    </tr>
+                    {% for idx,t in data %}
+                    <tr>
+                        <td name="studentid_{{idx}}" style="border: 5px groove ;text-align: center;">{{t['STUDENT_ID']}}</td>
+                        <input type="hidden" name="studentid_{{idx}}" value="{{t['STUDENT_ID']}}" />
+                        <td name="studentname_{{idx}}" style="border: 5px groove ;text-align: center">{{t['NAME']}}</td>
+                        <input type="hidden" name="studentname_{{idx}}" value="{{t['NAME']}}" />
+                        <td style="border: 5px groove ;text-align: center; margin-top: 2px;">
+                            <label class="switch">
+                            <!-- <input type="hidden" name ="present_{{idx}}" value="0"/> -->
+                            <input type="checkbox" name ="present_{{idx}}" />
+                            <span class="slider"></span>
+                          </label>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <br><br><br><br>
+                <div style="padding-top: 5%;">
+                    <input type="submit" value="Submit Attendance" class="btn btn-info btn-sm" style="margin-left: 35%;" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- Code to Add Print Button to the Page -->
+    <!-- <form>
+        <input class="col-sm-4 " type="button " value="Print " onclick="window.print() " />
+    </form> -->
+</body>
+
+<script>
+    var loadFile = function(event) {
+        var image = document.getElementById('output');
+        image.src = URL.createObjectURL(event.target.files[0]);
+    };
+</script>
+
+</html>

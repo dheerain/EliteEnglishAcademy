@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <meta content="description" name="description">
+    <meta name="google" content="notranslate" />
+    <meta content="Mashup templates have been developped by Orson.io team" name="author">
+
+    <!-- Disable tap highlight on IE -->
+    <meta name="msapplication-tap-highlight" content="no">
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="./../assets/apple-icon-180x180.png">
+    <link href="./../assets/favicon.ico" rel="icon">
+
+    <link href="" rel="stylesheet">
+
+
+    <title>View Student Data</title>
+
+    <link href="./../main.550dcf66.css" rel="stylesheet">
+</head>
+<!-- Add your content of header -->
+<header>
+    <nav class="navbar navbar-default active">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+                <a class="navbar-brand" href="./../" title="">
+                    <img src="./../assets/images/mashup-icon.svg" class="navbar-logo-img" alt=""> Elite English Academy
+                </a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="./../" title="">Home</a></li>
+                    {% if user %}
+                    <li><a>Hi {{user}}</a></li>
+                    <li><a href="./../dashboard" title="">Dashboard </a></li>
+                    {% endif %}
+                    <li><a href="./../login" title="">{{session_toggle}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<body>
+
+    <div id="printContainer" class="container">
+        <div style="text-align: center; border: black ridge 3px;">
+            <h2><u>Elite English Academy</u></h2>
+            <h3 style="color: black;"><u>Payment Receipt</u></h3>
+            <div style="text-align: center;margin-bottom: 3px;margin-left: 0px;">&emsp;Payment Date: {{data['date']}} &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; &emsp;&emsp;&emsp;Fees Due Date: &nbsp;{{data['PENDING_FROM']}}</div>
+            <div class="column" style="border: black  3px">
+                <br>
+                <h3 style="text-align: left;margin-top: 3px;margin-bottom: 3px">&emsp;Student Name:&nbsp;{{data['NAME']}} &nbsp;</h3>
+                </br>
+                <h3 style="text-align: left;margin-top: 3px;margin-bottom: 3px;">&emsp;Student Id:&nbsp;{{data['STUDENT_ID']}} &nbsp;</h3>
+                </br>
+                <h3 style="text-align: left;margin-top: 3px;margin-bottom: 3px">&emsp;Phone Number :&nbsp; {{data['MOBILE_NO']}} &nbsp; </h3>
+                </br>
+                <h3 style="text-align: left;margin-top: 3px;margin-bottom: 3px">&emsp;Batch:&nbsp;{{data['ENROLLED_IN']}} &nbsp; </h3>
+                </br>
+                <h3 style="text-align: left;margin-top: 3px;margin-bottom: 3px">&emsp;Received a payment of Rs. {{data['FEES']}}/- as {{data['COMMENT']}} </h3>
+
+                </br>
+
+            </div>
+            <div class="column">
+                <h3 style="text-align: right;margin-top: 45px;">
+                    <u>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                     
+                    </u></br>
+                    </br> Signature & Stamp &emsp;</h3>
+                </br>
+                <br>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="container">
+        <a href="../savepayment/{{data['STUDENT_ID']}}" value="Confirm the Payment" class="btn btn-info column" style="margin-left: 10%;">Confirm Payment</a>
+        <input type="button" value="Print" class="btn btn-info column" style="margin-left: 10%;" onclick="printDiv('printContainer')" />
+        <label style="color: red;text-align: center;"></br>System does not support partial payment. Make Sure you receive Full Payment.</br>
+             First Print the receipt. Receive the Payment.<br>
+             Click on Confirm payment to store in the Database.<br>
+             Option to print the receipt later is not available.</label>
+    </div><br><br>
+
+</body>
+
+<script>
+    var loadFile = function(event) {
+        var image = document.getElementById('output');
+        image.src = URL.createObjectURL(event.target.files[0]);
+    };
+</script>
+<script type=" text/javascript ">
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+</script>
+
+<style>
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+        #section-to-print,
+        printContainer {
+            visibility: visible;
+        }
+        #section-to-print {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
+</style>
+
+</html>

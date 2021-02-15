@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <meta content="description" name="description">
+    <meta name="google" content="notranslate" />
+    <meta content="Mashup templates have been developped by Orson.io team" name="author">
+
+    <!-- Disable tap highlight on IE -->
+    <meta name="msapplication-tap-highlight" content="no">
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-icon-180x180.png">
+    <link href="./assets/favicon.ico" rel="icon">
+
+    <link href="" rel="stylesheet">
+
+
+    <title>Dashboard Elite Academy</title>
+
+    <link href="./main.550dcf66.css" rel="stylesheet">
+    <!-- Add your content of header -->
+    <header>
+        <!-- <div class="hero-full-container background-image-container"> -->
+        <nav class="navbar navbar-default active">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            </button>
+                    <a class="navbar-brand" href="./" title="">
+                        <img src="./assets/images/mashup-icon.svg" class="navbar-logo-img" alt=""> Elite English Academy
+                    </a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="./" title="">Home</a></li>
+                        {% if user %}
+                        <li><a href="./dashboard" title="">Hi {{user}} </a></li>
+                        {% endif %}
+                        <li><a href="./login" title="">{{session_toggle}}</a></li>
+                        <li>
+                            <p><a href="./components.html" class="btn btn-default navbar-btn" title="">Components</a></p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+</head>
+
+<body>
+
+    <div class="container">
+        <p><a href="/newadmission" class="btn btn-info  alert-danger col-lg-5" style="margin-left: 28%;margin-right: 8%;"> New Admission</a></p><br>
+        <br><br>
+        <div class="col-md-5">
+            <p id="pteClass">
+                <type="button" class="btn btn-info btn-lg" onclick="toggleOption(this.id)" , id="pte">(PTE) Pearson Test Of English</button>
+            </p>
+
+        </div>
+        <div class="col-md-15">
+            <p id="ieltsClass">
+                <type="button" class="btn btn-info btn-lg" onclick="toggleOption(this.id)" id="ielts"> (IELTS) International English Language Testing System </button>
+            </p>
+
+        </div>
+        <div id="pte_option" style="visibility: hidden;margin-left: 7%;margin-right: auto; text-align: left;">
+            <div class="col-xs-1">
+                <p><a href="" class="btn btn-info">Attendance </a></p>
+                <p><a href="" class="btn btn-info">Records</a></p>
+            </div>
+        </div>
+        <div id="ielts_option" style="visibility: hidden;margin-left:45%;margin-right:auto;text-align: left;">
+            <div class="col-lg-12">
+                <p><a href="" class="btn btn-info">Attendance </a></p>
+                <p><a href="" class="btn btn-info">Records</a></p>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+    <!-- Java Scripting Code Starts Here -->
+    <!-- <script type="text/javascript" src="./main.0cf8b554.js" -->
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function(event) {
+            navbarFixedTopAnimation();
+        });
+
+        function toggleOption(id) {
+            if (id == 'ielts') {
+                if (window.getComputedStyle(document.getElementById("pteClass")).visibility == "hidden") {
+                    document.getElementById("pteClass").style.visibility = "visible";
+                    document.getElementById("ielts_option").style.visibility = "hidden";
+                } else {
+                    document.getElementById("pteClass").style.visibility = "hidden";
+                    document.getElementById("pte_option").style.visibility = "hidden";
+                    document.getElementById("ielts_option").style.visibility = "visible";
+                }
+            }
+            if (id == 'pte') {
+                if (window.getComputedStyle(document.getElementById("ieltsClass")).visibility == "hidden") {
+                    document.getElementById("ieltsClass").style.visibility = "visible";
+                    document.getElementById("pte_option").style.visibility = "hidden";
+                } else {
+                    document.getElementById("ieltsClass").style.visibility = "hidden";
+                    document.getElementById("ielts_option").style.visibility = "hidden";
+                    document.getElementById("pte_option").style.visibility = "visible";
+                }
+            }
+        }
+    </script>
+</body>
+
+
+</html>

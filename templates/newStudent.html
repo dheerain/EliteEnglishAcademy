@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <meta content="description" name="description">
+    <meta name="google" content="notranslate" />
+    <meta content="Mashup templates have been developped by Orson.io team" name="author">
+
+    <!-- Disable tap highlight on IE -->
+    <meta name="msapplication-tap-highlight" content="no">
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-icon-180x180.png">
+    <link href="./assets/favicon.ico" rel="icon">
+
+    <link href="" rel="stylesheet">
+
+
+    <title>Dashboard Elite Academy</title>
+
+    <link href="./main.550dcf66.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Add your content of header -->
+    <header>
+        <nav class="navbar navbar-default active">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+                    <a class="navbar-brand" href="./" title="">
+                        <img src="./assets/images/mashup-icon.svg" class="navbar-logo-img" alt=""> Elite English Academy
+                    </a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="./" title="">Home</a></li>
+                        {% if user %}
+                        <li><a>Hi {{user}}</a></li>
+                        <li><a href="./dashboard" title="">Dashboard </a></li>
+                        {% endif %}
+                        <li><a href="./login" title="">{{session_toggle}}</a></li>
+                        <li>
+                            <p>
+                                <a href="./components.html" class="btn btn-default navbar-btn" title="">Components</a>
+                            </p>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Add your site or app content here -->
+    <div class="alert alert-danger" align="center" style="margin-left: 35%;margin-right: 35%;">New Student Admission Form</div>
+    <br>
+
+    <div class="container grid">
+        <form action="./submitadmissiondata" method="POST" class="form-group">
+            <div class="column">
+                <div class="col-sm-5">
+                    <label>Fill in the Details:-</label>
+                    <input type="text" class="form-control" name="name" placeholder="Full Name" required /><br>
+                    <input type="text" class="form-control" name="father_name" placeholder="Father's Name" required /><br>
+                    <input type="text" class="form-control" name="mothers_name" placeholder="Mother's Name" required/><br>
+                    <input type="text" class="form-control" name="mobile" placeholder="Mobile Number" required/><br>
+                    <textarea class="form-control" rows="3" name="address" placeholder="Address" required></textarea> <br>
+                    <label> Getting Admisson In</label>
+                    <select class="form-control" , name="option">
+                        <option>IELTS</option>
+                        <option>PTE</option>
+                    </select>
+                </div>
+                <div class="column">
+                    <div class="col-sm-4">
+                        <label> Gender </label>
+                        <select class="form-control" name="gender">
+                                <option>Male</option>
+                                <option>Female</option>
+                        </select>
+                        <label>Date of Birth</label>
+                        <input type="date" class="form-control" name="dob" placeholder="Date Of Birth" required /><br>
+                        <input type="text" class="form-control" name="AltMobile" placeholder="Alternate Mobile Number" /><br>
+                        <label>Email address</label>
+                        <input type="email" class="form-control" name="EmailId" placeholder="Email" required /></br>
+                        <label>Name of School/Institute last studied</label>
+                        <input type="text" class="form-control" name="school" placeholder="School/Institute Name" required /><br>
+                        <label>Monthly Fees Amount</label>
+                        <input type="text" class="form-control" name="fees" placeholder="Fees" required /><br>
+                        <label>Roll-Number</label>
+                        <input type="text" class="form-control" name="rollnum" placeholder="Auto-Populate/Manual" /><br>
+                    </div>
+                </div>
+                <!-- <div class="column">
+                    <br>
+                    <p><input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" style="display: none;"></p>
+                    <p><label for="file" style="cursor: pointer; border: 3px;">Upload Image</label></p>
+                    <p><img id="output" width="200" height="250" />
+                </div> -->
+            </div>
+            <br><input type="submit" value="Submit Form" class="btn btn-primary btn-lg" style="margin-left: 50%;" />
+        </form>
+    </div>
+    <!-- Code to Add Print Button to the Page -->
+    <!-- <form>
+        <input class="col-sm-4" type="button" value="Print" onclick="window.print()" />
+    </form> -->
+</body>
+
+<script>
+    var loadFile = function(event) {
+        var image = document.getElementById('output');
+        image.src = URL.createObjectURL(event.target.files[0]);
+    };
+
+    function(event) {
+        var rolNum = document.getElementsByName('rollnum');
+    };
+</script>
+
+</html>
