@@ -181,9 +181,13 @@ def doPayment(studentid):
       print(studentid)
       user = session.get('username', None) 
       if user:
-            data = getPendingInstallmentStatus(studentid)
-            data['date'] = datetime.date.today()
-            return  render_template('dopayment.html' ,user= user,session_toggle = "Logout", data = data)
+            userData = userCredentialDict.get(user.lower())
+            if userData.get('adminAccess') :
+                  data = getPendingInstallmentStatus(studentid)
+                  data['date'] = datetime.date.today()
+                  return  render_template('dopayment.html' ,user= user,session_toggle = "Logout", data = data)
+            else:
+                  redirect("/")
       else:
             return  redirect("/login" )
 
