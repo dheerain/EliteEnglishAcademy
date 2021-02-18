@@ -78,7 +78,7 @@ def saveStudentData(result):
             result.get('school'),
             result.get('option'),
             'ACTIVE',
-            datetime.date.today().strftime('%Y%m%d')
+            contract_start_date
         )
     print("Inserting Payment Information")
 
