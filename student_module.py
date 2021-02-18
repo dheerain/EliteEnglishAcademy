@@ -57,6 +57,11 @@ def updateStudentID(currentStudentId,finalStudentId):
 
 def saveStudentData(result):
     print(result)
+    contract_start_date = result.get('contract_start_date')
+    if contract_start_date:
+        contract_start_date = datetime.datetime.strptime(contract_start_date,'%Y-%m-%d').strftime('%Y%m%d')
+    else:
+        contract_start_date = datetime.date.today().strftime('%Y%m%d')
     studentId =  result.get('rollnum') if result.get('rollnum') else  generateStudentId(result.get('option'),datetime.date.today()) 
     query ="""INSERT INTO STUDENT (STUDENT_ID,NAME,FATHERS_NAME,MOTHERS_NAME,ADDRESS,MOBILE_NO,ALT_MOBILE_NO,GENDER,DATE_OF_BIRTH,EMAIL,NAME_OF_LAST_SCHOOL,ENROLLED_IN,CONTRACT_STATUS,CONTRACT_START_DATE) VALUES ( """ +\
         "'{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}',{13});".format(
@@ -81,12 +86,17 @@ def saveStudentData(result):
     
 
 def insertPaymentInfo(studentId,result,finalQuery):
-    date_1 =datetime.date.today()
-    date_2 =datetime.date.today() + datetime.timedelta(days=30)
-    date_3 =datetime.date.today() + datetime.timedelta(days=60)
-    date_4 =datetime.date.today() + datetime.timedelta(days=90)
-    date_5 =datetime.date.today() + datetime.timedelta(days=120)
-    date_6 =datetime.date.today() + datetime.timedelta(days=150)
+    contract_start_date = result.get('contract_start_date')
+    if contract_start_date:
+        contract_start_date = datetime.datetime.strptime(contract_start_date,'%Y-%m-%d')
+    else:
+        contract_start_date = datetime.date.today().strftime('%Y%m%d')
+    date_1 =contract_start_date
+    date_2 =contract_start_date + datetime.timedelta(days=30)
+    date_3 =contract_start_date + datetime.timedelta(days=60)
+    date_4 =contract_start_date + datetime.timedelta(days=90)
+    date_5 =contract_start_date + datetime.timedelta(days=120)
+    date_6 =contract_start_date + datetime.timedelta(days=150)
     query = """INSERT INTO STUDENT_FEES (STUDENT_ID,FINALIZED_FEES,FEES_1_DUE_DATE,FEES_1_STATUS,FEES_2_DUE_DATE,
     FEES_2_STATUS,FEES_3_DUE_DATE,FEES_3_STATUS,FEES_4_DUE_DATE,FEES_4_STATUS,FEES_5_DUE_DATE,FEES_5_STATUS,
     FEES_6_DUE_DATE,FEES_6_STATUS) VALUES ('{0}',{1},'{2}','PENDING',
@@ -214,7 +224,7 @@ def getFeesDelayTable(user):
                 {'ENROLLED_IN': data['ENROLLED_IN'],
                 'STUDENT_ID': data['STUDENT_ID'],
                 'NAME': data['NAME'],
-                'ContractStartDate': data['CONTRACT_START_DATE'].strftime('%Y-%m-%d'),
+                'ContractStartDate': data['CONTRACT_START_DATE'],
                  'COMMENT': "FIRST_INSTALLMENT_PENDING",
                  'PENDING_FROM': data['FEES_1_DUE_DATE']}
             )
@@ -225,7 +235,7 @@ def getFeesDelayTable(user):
                 {'ENROLLED_IN': data['ENROLLED_IN'],
                 'STUDENT_ID': data['STUDENT_ID'],
                 'NAME': data['NAME'],
-                'ContractStartDate': data['CONTRACT_START_DATE'].strftime('%Y%m%d'),
+                'ContractStartDate': data['CONTRACT_START_DATE'],
                 'COMMENT': "SECOND_INSTALLMENT_PENDING",
                 'PENDING_FROM': data['FEES_2_DUE_DATE']}
             )
@@ -236,7 +246,7 @@ def getFeesDelayTable(user):
                 {'ENROLLED_IN': data['ENROLLED_IN'],
                 'STUDENT_ID': data['STUDENT_ID'],
                 'NAME': data['NAME'],
-                'ContractStartDate': data['CONTRACT_START_DATE'].strftime('%Y%m%d'),
+                'ContractStartDate': data['CONTRACT_START_DATE'],
                  'COMMENT': "THIRD_INSTALLMENT_PENDING",
                  'PENDING_FROM': data['FEES_3_DUE_DATE']}
             )
@@ -247,7 +257,7 @@ def getFeesDelayTable(user):
                 {'ENROLLED_IN': data['ENROLLED_IN'],
                 'STUDENT_ID': data['STUDENT_ID'],
                 'NAME': data['NAME'],
-                'ContractStartDate': data['CONTRACT_START_DATE'].strftime('%Y%m%d'),
+                'ContractStartDate': data['CONTRACT_START_DATE'],
                  'COMMENT': "FOURTH_INSTALLMENT_PENDING",
                  'PENDING_FROM': data['FEES_4_DUE_DATE']}
             )
@@ -258,7 +268,7 @@ def getFeesDelayTable(user):
                 {'ENROLLED_IN': data['ENROLLED_IN'],
                 'STUDENT_ID': data['STUDENT_ID'],
                 'NAME': data['NAME'],
-                'ContractStartDate': data['CONTRACT_START_DATE'].strftime('%Y%m%d'),
+                'ContractStartDate': data['CONTRACT_START_DATE'],
                  'COMMENT': "FIFTH_INSTALLMENT_PENDING",
                  'PENDING_FROM': data['FEES_5_DUE_DATE']}
             )
@@ -268,15 +278,14 @@ def getFeesDelayTable(user):
                 {'ENROLLED_IN': data['ENROLLED_IN'],
                 'STUDENT_ID': data['STUDENT_ID'],
                 'NAME': data['NAME'],
-                'ContractStartDate': data['CONTRACT_START_DATE'].strftime('%Y%m%d'),
+                'ContractStartDate': data['CONTRACT_START_DATE'],
                  'COMMENT': "SIXTH_INSTALLMENT_PENDING",
                  'PENDING_FROM': data['FEES_6_DUE_DATE']}
             )
             print("SIXTH_INSTALLMENT_PENDING")
             continue
     return pendingFeesStatusTable
-        # print(i['ENROLLED_IN'],i['STUDENT_ID'],i['NAME'] )
-
+        
 
 def getPendingInstallmentStatus(studentId):
     query = """SELECT  STUDENT.ENROLLED_IN,STUDENT.NAME,STUDENT.MOBILE_NO,STUDENT.CONTRACT_START_DATE,STUDENT_FEES.*  FROM STUDENT_FEES, STUDENT  WHERE STUDENT.STUDENT_ID = STUDENT_FEES.STUDENT_ID
