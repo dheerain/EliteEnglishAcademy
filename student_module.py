@@ -139,12 +139,13 @@ def updateStudentDatabyID(data):
         contract_termination_date = datetime.date.today()
     else:
         contract_termination_date = data['CONTRACT_TERMINATION_DATE']
-    
+    queryList = []
     currentStudentData = searchStudentDatabyID(data['STUDENT_ID'])[0]
     if currentStudentData.get('CONTRACT_START_DATE') != datetime.datetime.strptime(data['CONTRACT_START_DATE'],'%Y-%m-%d').date():
         #Contract Start date update is happening 
         #Need to update the payment info for that row
         updateContractStatusQuery = updateContractStartDate(data['STUDENT_ID'], datetime.datetime.strptime(data['CONTRACT_START_DATE'],'%Y-%m-%d').date())
+        queryList.append(updateContractStatusQuery)
 
     query = """UPDATE STUDENT SET NAME='{0}',FATHERS_NAME='{1}',MOTHERS_NAME='{2}',ADDRESS='{3}',MOBILE_NO='{4}',
     ALT_MOBILE_NO='{5}',GENDER='{6}',DATE_OF_BIRTH='{7}',EMAIL='{8}',NAME_OF_LAST_SCHOOL='{9}',ENROLLED_IN='{10}',
@@ -166,8 +167,8 @@ def updateStudentDatabyID(data):
     float(data['BANDS_RECEIVED']) if data['BANDS_RECEIVED']!= 'None' else 0 ,
     data['STUDENT_ID']
     )
-    
-    data = updateQuery([query,updateContractStatusQuery])
+    queryList.append(query)
+    data = updateQuery(queryList)
     return "Success" 
 
 def getAttendanceDatabyID(studentID=''):
