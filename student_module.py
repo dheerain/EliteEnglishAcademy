@@ -116,6 +116,22 @@ def searchStudentDatabyID(studentID=''):
     data = selectQuery(query)
     return data
 
+def updateContractStartDate(studentId, contractStartDate):
+    date_1 =contractStartDate
+    date_2 =contractStartDate + datetime.timedelta(days=30)
+    date_3 =contractStartDate + datetime.timedelta(days=60)
+    date_4 =contractStartDate + datetime.timedelta(days=90)
+    date_5 =contractStartDate + datetime.timedelta(days=120)
+    date_6 =contractStartDate + datetime.timedelta(days=150)
+
+    query = """UPDATE  STUDENT_FEES SET FEES_1_DUE_DATE='{0}',FEES_2_DUE_DATE='{1}',FEES_3_DUE_DATE='{2}',
+            FEES_4_DUE_DATE='{3}',FEES_5_DUE_DATE='{4}',FEES_6_DUE_DATE='{5}' WHERE STUDENT_ID = '{6}';""".format(
+            date_1.strftime('%Y%m%d'),date_2.strftime('%Y%m%d'),date_3.strftime('%Y%m%d'),
+            date_4.strftime('%Y%m%d'),date_5.strftime('%Y%m%d'),date_6.strftime('%Y%m%d'),studentId
+            )
+    return query
+
+
 def updateStudentDatabyID(data):
     # if data['CONTRACT_TERMINATION_DATE'] else '1970-01-01' 
     contract_termination_date = None
@@ -123,6 +139,12 @@ def updateStudentDatabyID(data):
         contract_termination_date = datetime.date.today()
     else:
         contract_termination_date = data['CONTRACT_TERMINATION_DATE']
+    
+    currentStudentData = searchStudentDatabyID(data['STUDENT_ID'])[0]
+    if currentStudentData.get('CONTRACT_START_DATE') != datetime.datetime.strptime(data['CONTRACT_START_DATE'],'%Y-%m-%d').date():
+        #Contract Start date update is happening 
+        #Need to update the payment info for that row
+        updateContractStatusQuery = updateContractStartDate(data['STUDENT_ID'], datetime.datetime.strptime(data['CONTRACT_START_DATE'],'%Y-%m-%d').date())
 
     query = """UPDATE STUDENT SET NAME='{0}',FATHERS_NAME='{1}',MOTHERS_NAME='{2}',ADDRESS='{3}',MOBILE_NO='{4}',
     ALT_MOBILE_NO='{5}',GENDER='{6}',DATE_OF_BIRTH='{7}',EMAIL='{8}',NAME_OF_LAST_SCHOOL='{9}',ENROLLED_IN='{10}',
@@ -144,8 +166,8 @@ def updateStudentDatabyID(data):
     float(data['BANDS_RECEIVED']) if data['BANDS_RECEIVED']!= 'None' else 0 ,
     data['STUDENT_ID']
     )
-
-    data = updateQuery(query)
+    
+    data = updateQuery([query,updateContractStatusQuery])
     return "Success" 
 
 def getAttendanceDatabyID(studentID=''):
@@ -410,7 +432,7 @@ def savePayment(studentId):
 def getPaymentInfo(studentId):
     query = """SELECT  *  FROM STUDENT_FEES  WHERE STUDENT_ID = '{0}';""".format(studentId)
     result = (selectQuery(query))
-    print("Dheerain")
+    # print("Dheerain")
     return result[0]
     
 
